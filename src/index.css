@@ -1,0 +1,298 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Pretendard', sans-serif;
+  overflow-x: hidden;
+}
+
+section {
+  scroll-snap-align: start;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* 폰트 설정 */
+.font-slogan {
+  font-family: 'UnifrakturMaguntia', cursive;
+}
+
+.font-body {
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* Grain Overlay */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Scroll Indicator 스타일 */
+.scroll-indicator {
+  position: fixed;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.indicator-item {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.indicator-item.active {
+  color: #ffffff;
+  transform: scale(1.2);
+}
+
+.indicator-item:hover {
+  color: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.hero-slogan {
+  position: relative;
+  z-index: 2;
+  font-size: 120px;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* About Section */
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10%;
+}
+
+.about-content {
+  max-width: 800px;
+  text-align: center;
+}
+
+.about-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 64px;
+  margin-bottom: 40px;
+}
+
+.about-text {
+  font-size: 24px;
+  line-height: 1.8;
+  color: #cccccc;
+}
+
+/* Artworks Section */
+.artworks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 10%;
+}
+
+.artworks-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 64px;
+  margin-bottom: 60px;
+}
+
+.artworks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.artwork-item {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.artwork-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.2);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.artwork-image:hover {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+/* Projects Section */
+.projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 10%;
+}
+
+.projects-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 64px;
+  margin-bottom: 60px;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.project-item {
+  padding: 30px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.project-item:hover {
+  border-color: #ffffff;
+  background-color: #111;
+}
+
+.project-title {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.project-description {
+  font-size: 18px;
+  color: #cccccc;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 10%;
+}
+
+.contact-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 64px;
+  margin-bottom: 60px;
+}
+
+.contact-content {
+  text-align: center;
+  font-size: 24px;
+  line-height: 2;
+}
+
+.contact-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #888;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .hero-slogan {
+    font-size: 80px;
+  }
+
+  .artworks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-slogan {
+    font-size: 60px;
+  }
+
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 48px;
+  }
+
+  .artworks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scroll-indicator {
+    right: 20px;
+  }
+
+  .about,
+  .artworks,
+  .projects,
+  .contact {
+    padding: 40px 5%;
+  }
+}
