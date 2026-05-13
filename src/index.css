@@ -22,6 +22,7 @@ section {
   height: 100vh;
   width: 100%;
   position: relative;
+  z-index: 10;
 }
 
 /* 폰트 설정 */
@@ -41,52 +42,26 @@ section {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  animation: grainAnimation 0.5s steps(10) infinite;
-  mix-blend-mode: overlay;
+  z-index: 1;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: grainAnimation 0.8s steps(5) infinite;
+  mix-blend-mode: soft-light;
+  will-change: transform;
 }
 
 @keyframes grainAnimation {
   0%, 100% {
     transform: translate(0, 0);
   }
-  10% {
-    transform: translate(-1%, -1%);
-  }
-  20% {
-    transform: translate(1%, 1%);
-  }
-  30% {
-    transform: translate(-1%, 1%);
-  }
-  40% {
-    transform: translate(1%, -1%);
+  25% {
+    transform: translate(-0.5%, -0.5%);
   }
   50% {
-    transform: translate(-1%, 0);
+    transform: translate(0.5%, 0.5%);
   }
-  60% {
-    transform: translate(1%, 0);
-  }
-  70% {
-    transform: translate(0, -1%);
-  }
-  80% {
-    transform: translate(0, 1%);
-  }
-  90% {
-    transform: translate(1%, 1%);
-  }
-}
-
-@keyframes grainFlicker {
-  0% {
-    opacity: 0.06;
-  }
-  100% {
-    opacity: 0.1;
+  75% {
+    transform: translate(-0.5%, 0.5%);
   }
 }
 
@@ -98,9 +73,10 @@ section {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9998;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.8) 100%);
+  z-index: 50;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.5) 100%);
   mix-blend-mode: multiply;
+  will-change: opacity;
 }
 
 .peripheral-blur {
@@ -110,11 +86,12 @@ section {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9997;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
-  backdrop-filter: blur(0px);
-  mask-image: radial-gradient(ellipse at center, transparent 40%, black 100%);
-  -webkit-mask-image: radial-gradient(ellipse at center, transparent 40%, black 100%);
+  z-index: 51;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+  backdrop-filter: blur(0.5px);
+  mask-image: radial-gradient(ellipse at center, transparent 50%, black 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 50%, black 100%);
+  will-change: backdrop-filter;
 }
 
 /* Chromatic Aberration */
@@ -125,9 +102,10 @@ section {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9996;
+  z-index: 52;
   mix-blend-mode: screen;
-  opacity: 0.03;
+  opacity: 0.02;
+  will-change: opacity;
 }
 
 .chromatic-aberration::before {
@@ -139,7 +117,8 @@ section {
   height: 100%;
   background: inherit;
   filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='chromatic'%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1'/%3E%3C/filter%3E%3C/svg%3E#chromatic");
-  animation: chromaticShift 3s ease-in-out infinite;
+  animation: chromaticShift 4s ease-in-out infinite;
+  will-change: transform;
 }
 
 .chromatic-aberration::after {
@@ -151,7 +130,8 @@ section {
   height: 100%;
   background: inherit;
   filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='chromatic2'%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3C/svg%3E#chromatic2");
-  animation: chromaticShift 3s ease-in-out infinite reverse;
+  animation: chromaticShift 4s ease-in-out infinite reverse;
+  will-change: transform;
 }
 
 @keyframes chromaticShift {
@@ -177,20 +157,11 @@ section {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9995;
+  z-index: 5;
   opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rgbNoise'%3E%3CfeTurbulence type='turbulence' baseFrequency='3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rgbNoise)'/%3E%3C/svg%3E");
-  mix-blend-mode: screen;
-  animation: rgbNoiseFlicker 0.15s infinite alternate;
-}
-
-@keyframes rgbNoiseFlicker {
-  0% {
-    opacity: 0.015;
-  }
-  100% {
-    opacity: 0.025;
-  }
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rgbNoise'%3E%3CfeTurbulence type='turbulence' baseFrequency='3' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rgbNoise)'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  will-change: transform;
 }
 
 /* Scroll Indicator 스타일 */
@@ -202,7 +173,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 25px;
-  z-index: 1000;
+  z-index: 100;
   align-items: center;
 }
 
@@ -406,33 +377,70 @@ section {
 .projects-list {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 60px;
   width: 100%;
   max-width: 800px;
 }
 
 .project-item {
-  padding: 30px;
-  border: 1px solid #333;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  padding: 30px 0;
+  border: none;
+  background: none;
+  border-radius: 0;
+  transition: all 0.5s ease;
   cursor: pointer;
+  position: relative;
+  will-change: transform;
 }
 
 .project-item:hover {
-  border-color: #ffffff;
-  background-color: #111;
+  transform: translateY(-2px);
 }
 
 .project-title {
   font-size: 32px;
   margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+  transition: letter-spacing 0.5s ease;
+  will-change: letter-spacing;
+}
+
+.project-item:hover .project-title {
+  letter-spacing: 0.05em;
+}
+
+.project-title::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+  will-change: opacity;
+}
+
+.project-item:hover .project-title::before {
+  opacity: 1;
 }
 
 .project-description {
   font-size: 18px;
   color: #cccccc;
   line-height: 1.6;
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+  will-change: opacity;
+}
+
+.project-item:hover .project-description {
+  opacity: 1;
 }
 
 /* Contact Section */
@@ -464,6 +472,34 @@ section {
 
 .contact-link:hover {
   color: #888;
+}
+
+/* 이미지 및 로고 보안 설정 */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.hero-logo,
+.artwork-image {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 /* 반응형 디자인 */
@@ -502,5 +538,244 @@ section {
   .projects,
   .contact {
     padding: 40px 5%;
+  }
+}
+
+/* 모바일 최적화 - 480px 이하 */
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero-logo {
+    max-width: min(250px, 80vw);
+    min-width: 150px;
+  }
+
+  .hero-logo-text {
+    font-size: 36px;
+  }
+
+  /* About Section - 텍스트 오버플로우 방지 */
+  .about {
+    padding: 40px 5%;
+  }
+
+  .about-content {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .about-title {
+    font-size: 36px;
+    margin-bottom: 30px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Artworks Section */
+  .artworks {
+    padding: 40px 5%;
+  }
+
+  .artworks-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .artworks-grid {
+    gap: 30px;
+  }
+
+  .artwork-item {
+    width: 100%;
+  }
+
+  /* Projects Section */
+  .projects {
+    padding: 40px 5%;
+  }
+
+  .projects-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .project-title {
+    font-size: 24px;
+  }
+
+  .project-description {
+    font-size: 16px;
+  }
+
+  /* Contact Section */
+  .contact {
+    padding: 40px 5%;
+  }
+
+  .contact-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .contact-content {
+    font-size: 18px;
+  }
+
+  /* Scroll Indicator - 모바일에서 크기 축소 */
+  .scroll-indicator {
+    right: 15px;
+    gap: 20px;
+  }
+
+  .indicator-item {
+    width: 8px;
+    height: 8px;
+  }
+
+  .indicator-line.horizontal {
+    height: 0.8px;
+  }
+
+  .indicator-line.vertical {
+    width: 0.8px;
+  }
+}
+
+/* 소형 모바일 - 360px 이하 */
+@media (max-width: 360px) {
+  .hero-logo {
+    max-width: min(200px, 75vw);
+    min-width: 120px;
+  }
+
+  .hero-logo-text {
+    font-size: 28px;
+  }
+
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 28px;
+  }
+
+  .about-text {
+    font-size: 0.85rem;
+  }
+
+  .project-title {
+    font-size: 20px;
+  }
+
+  .project-description {
+    font-size: 14px;
+  }
+
+  .scroll-indicator {
+    right: 10px;
+    gap: 15px;
+  }
+
+  .indicator-item {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* 터치 인터페이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  /* 터치 디바이스에서 hover 효과를 항상 활성화 */
+  .artwork-image {
+    filter: grayscale(0%);
+  }
+
+  .project-item .project-title::before {
+    opacity: 0.5;
+  }
+
+  .project-item .project-description {
+    opacity: 0.7;
+  }
+
+  /* 터치 타겟 크기 증가 */
+  .indicator-item {
+    width: 14px;
+    height: 14px;
+  }
+
+  .artwork-item {
+    cursor: pointer;
+  }
+
+  .project-item {
+    cursor: pointer;
+  }
+}
+
+/* 모바일 성능 최적화 */
+@media (max-width: 768px) {
+  /* 노이즈 효과 감소 */
+  .grain-overlay {
+    opacity: 0.04;
+    animation-duration: 1.2s;
+  }
+
+  /* 비네트 효과 감소 */
+  .vignette-overlay {
+    opacity: 0.7;
+  }
+
+  /* 주변 블러 감소 */
+  .peripheral-blur {
+    backdrop-filter: blur(0.3px);
+  }
+
+  /* 크로마틱 어베리에이션 감소 */
+  .chromatic-aberration {
+    opacity: 0.01;
+  }
+
+  /* RGB 노이즈 감소 */
+  .rgb-noise {
+    opacity: 0.01;
+  }
+
+  /* 비디오 성능 최적화 */
+  .hero-video {
+    opacity: 0.5;
+  }
+
+  /* 애니메이션 최적화 */
+  .grain-overlay,
+  .chromatic-aberration::before,
+  .chromatic-aberration::after {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+}
+
+/* 저사양 디바이스 추가 최적화 */
+@media (max-width: 480px) and (max-height: 800px) {
+  .grain-overlay {
+    opacity: 0.03;
+    animation: none;
+  }
+
+  .chromatic-aberration {
+    display: none;
+  }
+
+  .rgb-noise {
+    display: none;
+  }
+
+  .peripheral-blur {
+    backdrop-filter: none;
   }
 }

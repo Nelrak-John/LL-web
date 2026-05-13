@@ -26,8 +26,12 @@ const Hero = () => {
             src="/images/web_logo/LL_logo_B_W.png"
             alt="LONELY LEGACY"
             className="hero-logo"
+            draggable="false"
             onLoad={handleImageLoad}
             onError={handleImageError}
+            onContextMenu={(e) => e.preventDefault()}
+            onTouchStart={(e) => e.preventDefault()}
+            style={{ pointerEvents: 'none' }}
           />
         )}
       </div>

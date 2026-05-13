@@ -16,7 +16,7 @@ const Contact = () => {
           </a>
         </p>
         <p>
-          <a href="https://twitter.com/lonelylegacy" className="contact-link">
+          #<a href="//twitter.com/lonelylegacy" className="contact-link">
             Twitter
           </a>
         </p>

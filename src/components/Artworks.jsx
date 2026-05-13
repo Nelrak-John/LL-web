@@ -23,11 +23,21 @@ const Artworks = () => {
             style={{
               transform: `translate(${(index % 3) * 10}px, ${(index % 2) * 15}px)`,
             }}
+            onTouchStart={(e) => {
+              e.currentTarget.style.transform = `translate(${(index % 3) * 10}px, ${(index % 2) * 15}px) scale(1.02)`;
+            }}
+            onTouchEnd={(e) => {
+              e.currentTarget.style.transform = `translate(${(index % 3) * 10}px, ${(index % 2) * 15}px) scale(1)`;
+            }}
           >
             <img
               src={artwork.image}
               alt={artwork.title}
               className="artwork-image"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
+              onTouchStart={(e) => e.preventDefault()}
+              style={{ pointerEvents: 'none' }}
             />
             <div className="artwork-info">
               <p className="artwork-artist font-body">{artwork.artist}</p>

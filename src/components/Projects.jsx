@@ -24,7 +24,16 @@ const Projects = () => {
       <h1 className="projects-title font-slogan">Projects</h1>
       <div className="projects-list">
         {projects.map((project) => (
-          <div key={project.id} className="project-item">
+          <div 
+            key={project.id} 
+            className="project-item"
+            onTouchStart={(e) => {
+              e.currentTarget.querySelector('.project-description').style.opacity = '1';
+            }}
+            onTouchEnd={(e) => {
+              e.currentTarget.querySelector('.project-description').style.opacity = '0.4';
+            }}
+          >
             <h2 className="project-title font-body">{project.title}</h2>
             <p className="project-description font-body">{project.description}</p>
           </div>

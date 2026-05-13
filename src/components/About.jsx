@@ -1,7 +1,7 @@
 import React from 'react';
 
 const About = () => {
-  const aboutContent = 'From the chaotic rhythm of the Emergency Room to the deep resonance of the studio. Lonely Legacy(LL) is a journey of defining heritage through sound and vision.';
+  const aboutContent = '음악의 질감과 시각적 서사가 긴밀하게 교차하는 지점에서, 소리와 이미지의 경계를 허무는 독창적인 설계의 기록.';
 
   return (
     <section className="about">
