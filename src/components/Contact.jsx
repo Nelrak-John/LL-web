@@ -11,8 +11,8 @@ const Contact = () => {
           </a>
         </p>
         <p>
-          <a href="https://instagram.com/lonelylegacy" className="contact-link">
-            Instagram
+          <a href="https://www.instagram.com/lonelylegacyxx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="contact-link">
+            Insta
           </a>
         </p>
         <p>

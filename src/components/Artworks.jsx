@@ -14,7 +14,7 @@ const Artworks = () => {
 
   return (
     <section className="artworks">
-      <h1 className="artworks-title font-slogan">Artworks</h1>
+      <h1 className="artworks-title font-slogan">Archive</h1>
       <div className="artworks-grid">
         {artworks.map((artwork, index) => (
           <div 
