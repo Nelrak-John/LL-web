@@ -28,6 +28,8 @@ const Hero = () => {
             className="hero-logo"
             onLoad={handleImageLoad}
             onError={handleImageError}
+            draggable="false"
+            onContextMenu={(e) => e.preventDefault()}
           />
         )}
       </div>
