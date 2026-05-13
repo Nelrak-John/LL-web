@@ -1,54 +1,35 @@
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
-import * as THREE from 'three';
-
-const LiquidText = () => {
-  const meshRef = useRef();
-  const [hovered, setHovered] = useState(false);
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      const time = state.clock.getElapsedTime();
-      if (hovered) {
-        meshRef.current.position.x = Math.sin(time * 3) * 0.1;
-        meshRef.current.position.y = Math.cos(time * 2) * 0.05;
-        meshRef.current.rotation.z = Math.sin(time * 2) * 0.1;
-      } else {
-        meshRef.current.position.x = 0;
-        meshRef.current.position.y = 0;
-        meshRef.current.rotation.z = 0;
-      }
-    }
-  });
-
-  return (
-    <Text
-      ref={meshRef}
-      fontSize={2}
-      color="white"
-      anchorX="center"
-      anchorY="middle"
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      LONELY LEGACY
-    </Text>
-  );
-};
+import React, { useState, useEffect } from 'react';
 
 const Hero = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+    console.error('로고 이미지 로딩 실패: /images/web_logo/LL_logo_B_W.png');
+  };
+
   return (
     <section className="hero">
       <video className="hero-video" autoPlay loop muted playsInline>
         <source src="/videos/metallic-loop.mp4" type="video/mp4" />
       </video>
-      <div className="hero-slogan">
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
-          <LiquidText />
-        </Canvas>
+      <div className="hero-logo-container">
+        {imageError ? (
+          <h1 className="hero-logo-text font-slogan">LONELY LEGACY</h1>
+        ) : (
+          <img
+            src="/images/web_logo/LL_logo_B_W.png"
+            alt="LONELY LEGACY"
+            className="hero-logo"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+          />
+        )}
       </div>
     </section>
   );

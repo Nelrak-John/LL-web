@@ -2,25 +2,39 @@ import React from 'react';
 
 const Artworks = () => {
   const artworks = [
-    { id: 1, title: 'Ethereal Dreams', image: '/images/artwork-1.jpg' },
-    { id: 2, title: 'Digital Decay', image: '/images/artwork-2.jpg' },
-    { id: 3, title: 'Neon Shadows', image: '/images/artwork-3.jpg' },
-    { id: 4, title: 'Silent Echoes', image: '/images/artwork-4.jpg' },
-    { id: 5, title: 'Fragments', image: '/images/artwork-5.jpg' },
-    { id: 6, title: 'Void Walker', image: '/images/artwork-6.jpg' },
+    { id: 1, artist: 'KARLEN', title: 'BANG', image: '/images/artworks/KRLN-BANG.jpg' },
+    { id: 2, artist: 'KARLEN', title: 'KRLNCIAGA', image: '/images/artworks/KRLN-KRLNCIAGA.jpg' },
+    { id: 3, artist: 'KARLEN', title: 'Lost', image: '/images/artworks/KRLN-Lost.jpg' },
+    { id: 4, artist: 'KARLEN', title: 'Virgil Abloh', image: '/images/artworks/KRLN-Virgil Abloh.jpg' },
+    { id: 5, artist: 'Poloet', title: 'Lilac', image: '/images/artworks/P-Lilac.jpg' },
+    { id: 6, artist: 'Poloet', title: 'Paran', image: '/images/artworks/P-Paran.jpg' },
+    { id: 7, artist: 'Poloet', title: '재', image: '/images/artworks/P-재.jpg' },
+    { id: 8, artist: 'Poloet', title: '초련(520)', image: '/images/artworks/P-초련(520).jpg' },
   ];
 
   return (
     <section className="artworks">
-      <h1 className="artworks-title font-slogan">Artworks</h1>
+      <h1 className="artworks-title font-slogan">Archive</h1>
       <div className="artworks-grid">
-        {artworks.map((artwork) => (
-          <div key={artwork.id} className="artwork-item">
+        {artworks.map((artwork, index) => (
+          <div 
+            key={artwork.id} 
+            className="artwork-item"
+            style={{
+              transform: `translate(${(index % 3) * 10}px, ${(index % 2) * 15}px)`,
+            }}
+          >
             <img
               src={artwork.image}
               alt={artwork.title}
               className="artwork-image"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
             />
+            <div className="artwork-info">
+              <p className="artwork-artist font-body">{artwork.artist}</p>
+              <p className="artwork-title font-body">{artwork.title}</p>
+            </div>
           </div>
         ))}
       </div>

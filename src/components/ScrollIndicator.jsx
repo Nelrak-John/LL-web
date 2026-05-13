@@ -32,10 +32,19 @@ const ScrollIndicator = () => {
           key={section}
           className={`indicator-item ${activeSection === index ? 'active' : ''}`}
           onClick={() => scrollToSection(index)}
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
+          animate={{
+            rotate: activeSection === index ? 45 : 0,
+            scale: activeSection === index ? 0.8 : 1,
+          }}
+          transition={{
+            duration: 0.4,
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
         >
-          {activeSection === index ? '×' : '+'}
+          <div className="indicator-plus">
+            <span className="indicator-line horizontal"></span>
+            <span className="indicator-line vertical"></span>
+          </div>
         </motion.div>
       ))}
     </div>
