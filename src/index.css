@@ -4,6 +4,27 @@
   box-sizing: border-box;
 }
 
+/* 전역 이미지 및 로고 보안 설정 */
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+/* 로고 및 특정 섹션 선택 방지 */
+.hero-logo-container,
+.hero-logo-text,
+.artworks-grid,
+.artwork-item,
+.artwork-image {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
 html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
