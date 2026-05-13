@@ -28,6 +28,8 @@ const Artworks = () => {
               src={artwork.image}
               alt={artwork.title}
               className="artwork-image"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
             />
             <div className="artwork-info">
               <p className="artwork-artist font-body">{artwork.artist}</p>

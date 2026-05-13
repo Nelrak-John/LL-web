@@ -382,6 +382,9 @@ section {
   object-fit: cover;
   filter: grayscale(100%) contrast(1.2);
   transition: filter 0.5s ease, transform 0.5s ease;
+  backface-visibility: hidden;
+  will-change: filter;
+  pointer-events: auto;
 }
 
 .artwork-image:hover {
@@ -502,5 +505,193 @@ section {
   .projects,
   .contact {
     padding: 40px 5%;
+  }
+}
+
+/* 터치 인터페이스 최적화 - 모바일에서 항상 컬러로 표시 */
+@media (hover: none) and (pointer: coarse) {
+  .artwork-image {
+    filter: grayscale(0%);
+  }
+}
+
+/* 모바일 성능 최적화 */
+@media (max-width: 768px) {
+  /* 노이즈 효과 감소 */
+  .grain-overlay {
+    opacity: 0.04;
+    animation-duration: 1.2s;
+  }
+
+  /* 비네트 효과 감소 */
+  .vignette-overlay {
+    opacity: 0.7;
+  }
+
+  /* 주변 블러 감소 */
+  .peripheral-blur {
+    backdrop-filter: blur(0.3px);
+  }
+
+  /* 크로마틱 어베리에이션 감소 */
+  .chromatic-aberration {
+    opacity: 0.01;
+  }
+
+  /* RGB 노이즈 감소 */
+  .rgb-noise {
+    opacity: 0.01;
+  }
+
+  /* 비디오 성능 최적화 */
+  .hero-video {
+    opacity: 0.5;
+  }
+}
+
+/* 모바일 최적화 - 480px 이하 */
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero-logo {
+    max-width: min(250px, 80vw);
+    min-width: 150px;
+  }
+
+  .hero-logo-text {
+    font-size: 36px;
+  }
+
+  /* About Section - 텍스트 오버플로우 방지 */
+  .about {
+    padding: 40px 5%;
+  }
+
+  .about-content {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .about-title {
+    font-size: 36px;
+    margin-bottom: 30px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Artworks Section */
+  .artworks {
+    padding: 40px 5%;
+  }
+
+  .artworks-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .artworks-grid {
+    gap: 30px;
+  }
+
+  .artwork-item {
+    width: 100%;
+  }
+
+  /* Projects Section */
+  .projects {
+    padding: 40px 5%;
+  }
+
+  .projects-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .project-title {
+    font-size: 24px;
+  }
+
+  .project-description {
+    font-size: 16px;
+  }
+
+  /* Contact Section */
+  .contact {
+    padding: 40px 5%;
+  }
+
+  .contact-title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+
+  .contact-content {
+    font-size: 18px;
+  }
+
+  /* Scroll Indicator - 모바일에서 크기 축소 */
+  .scroll-indicator {
+    right: 15px;
+    gap: 20px;
+  }
+
+  .indicator-item {
+    width: 8px;
+    height: 8px;
+  }
+
+  .indicator-line.horizontal {
+    height: 0.8px;
+  }
+
+  .indicator-line.vertical {
+    width: 0.8px;
+  }
+}
+
+/* 소형 모바일 - 360px 이하 */
+@media (max-width: 360px) {
+  .hero-logo {
+    max-width: min(200px, 75vw);
+    min-width: 120px;
+  }
+
+  .hero-logo-text {
+    font-size: 28px;
+  }
+
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 28px;
+  }
+
+  .about-text {
+    font-size: 0.85rem;
+  }
+
+  .project-title {
+    font-size: 20px;
+  }
+
+  .project-description {
+    font-size: 14px;
+  }
+
+  .scroll-indicator {
+    right: 10px;
+    gap: 15px;
+  }
+
+  .indicator-item {
+    width: 6px;
+    height: 6px;
   }
 }
