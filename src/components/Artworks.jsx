@@ -13,66 +13,110 @@ const Artworks = () => {
       artist: 'KARLEN',
       title: 'BANG',
       image: '/images/artworks/KRLN-BANG.jpg',
-      releaseDate: '2024.01',
-      credits: 'Art Direction: KARLEN'
+      releaseDate: '2025.11.06',
+      credits: 'Art Direction by KARLEN',
+      type: 'Single'
     },
     {
       id: 2,
       artist: 'KARLEN',
       title: 'KRLNCIAGA',
       image: '/images/artworks/KRLN-KRLNCIAGA.jpg',
-      releaseDate: '2024.02',
-      credits: 'Art Direction: KARLEN'
+      releaseDate: '2025.06.16',
+      credits: 'Art Direction by KARLEN',
+      type: 'Single'
     },
     {
       id: 3,
       artist: 'KARLEN',
       title: 'Lost',
       image: '/images/artworks/KRLN-Lost.jpg',
-      releaseDate: '2024.03',
-      credits: 'Art Direction: KARLEN'
+      releaseDate: '2025.12.18',
+      credits: 'Art Direction by KARLEN',
+      type: 'Single'
     },
     {
       id: 4,
       artist: 'KARLEN',
       title: 'Virgil Abloh',
       image: '/images/artworks/KRLN-Virgil Abloh.jpg',
-      releaseDate: '2024.04',
-      credits: 'Art Direction: KARLEN'
+      releaseDate: '2024.08.19',
+      credits: 'Art Direction by KARLEN',
+      type: 'single'
     },
     {
       id: 5,
       artist: 'Poloet',
       title: 'Lilac',
       image: '/images/artworks/P-Lilac.jpg',
-      releaseDate: '2024.05',
-      credits: 'Art Direction: Poloet'
+      releaseDate: '2025.11.21',
+      credits:'Art Direction by KARLEN & Poloet',
+      type: 'single'
     },
     {
       id: 6,
       artist: 'Poloet',
       title: 'Paran',
       image: '/images/artworks/P-Paran.jpg',
-      releaseDate: '2024.06',
-      credits: 'Art Direction: Poloet'
+      releaseDate: '2025.04.16',
+      credits: 'Art Direction by KARLEN & Poloet',
+      type: 'Double Single'
     },
     {
       id: 7,
       artist: 'Poloet',
       title: '재',
       image: '/images/artworks/P-재.jpg',
-      releaseDate: '2024.07',
-      credits: 'Art Direction: Poloet'
+      releaseDate: '2024.07.19',
+      credits:'Art Direction by KARLEN',
+      type: 'single'
     },
     {
       id: 8,
       artist: 'Poloet',
       title: '초련',
-      image: '/images/artworks/P-초련(520).jpg',
-      releaseDate: '2024.08',
-      credits: 'Art Direction: Poloet'
+      image: '/images/artworks/P-초련.jpg',
+      releaseDate: '2026.05.20',
+      credits:'Art Direction by KARLEN & Poloet',
+      type:'single'
     },
-  ];
+    {
+      id: 9,
+      artist: 'KARLEN',
+      title: 'DRILLNNT',
+      image: '/images/artworks/KRLN-DRILLNNT.jpg',
+      releaseDate: '2023.05.22',
+      credits: 'Art Direction by KARLEN',
+      type: 'EP'
+    },
+    {
+      id: 10,
+      artist: 'Poloet',
+      title: '순애',
+      image: '/images/artworks/P-순애.jpg',
+      releaseDate: '2023.08.14',
+      credits: 'Art Direction by KARLEN & Poloet',
+      type: 'Single'
+    },
+    {
+      id: 11,
+      artist: 'KARLEN',
+      title: 'WAY',
+      image: '/images/artworks/KRLN-WAY.jpg',
+      releaseDate: '2024.02.27',
+      credits: 'Art Direction by KARLEN',
+      type: 'Single'
+    },
+    {
+      id: 12,
+      artist: 'Poloet',
+      title: 'Only you',
+      image: '/images/artworks/P-Only you.jpg',
+      releaseDate: '2024.04.02',
+      credits: 'Art Direction by KARLEN & Poloet',
+      type: 'Single'
+    },
+  ].sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
 
   const getSlideWidth = () => {
     if (carouselRef.current && carouselRef.current.children[0]) {
@@ -233,6 +277,11 @@ const Artworks = () => {
               <h2 className="carousel-title font-body">{artwork.title}</h2>
               <p className="carousel-artist font-body">{artwork.artist}</p>
               <div className="carousel-details">
+                {artwork.type && (
+                  <p className="carousel-type font-body">
+                    <span className="detail-label">Type:</span> {artwork.type}
+                  </p>
+                )}
                 <p className="carousel-release-date font-body">
                   <span className="detail-label">Release:</span> {artwork.releaseDate}
                 </p>

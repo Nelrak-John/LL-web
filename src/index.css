@@ -61,7 +61,7 @@ section > * {
 /* 폰트 설정 */
 .font-slogan {
   font-family: 'UnifrakturMaguntia', cursive;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .font-body {
@@ -273,21 +273,21 @@ section > * {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 0;
+  padding: clamp(30px, 3.125vw, 60px) 0;
   min-height: 100vh;
 }
 
 .artworks-title {
   font-family: 'UnifrakturMaguntia', cursive;
-  font-size: 64px;
-  margin-bottom: 60px;
+  font-size: clamp(32px, 3.33vw, 64px);
+  margin-bottom: clamp(30px, 3.125vw, 60px);
 }
 
 /* Carousel Scroll Container - Center Mode */
 .carousel-scroll-container {
   display: flex;
   width: 100%;
-  margin: 0 auto 40px;
+  margin: 0 auto clamp(20px, 2.1vw, 40px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -298,7 +298,7 @@ section > * {
   -webkit-user-select: none;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 0 calc(50vw - 300px);
+  padding: 0 calc(50vw - (clamp(280px, 31.25vw, 600px) / 2 + clamp(10px, 1.04vw, 20px)));
 }
 
 .carousel-scroll-container::-webkit-scrollbar {
@@ -310,9 +310,9 @@ section > * {
 }
 
 .carousel-slide-wrapper {
-  flex: 0 0 600px;
+  flex: 0 0 clamp(280px, 31.25vw, 600px);
   scroll-snap-align: center;
-  padding: 0 20px;
+  padding: 0 clamp(10px, 1.04vw, 20px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   opacity: 0.35;
@@ -368,7 +368,7 @@ section > * {
 .carousel-info {
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: clamp(280px, 31.25vw, 600px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
@@ -380,29 +380,30 @@ section > * {
 }
 
 .carousel-title {
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: clamp(18px, 1.875vw, 36px);
+  margin-bottom: clamp(5px, 0.52vw, 10px);
   color: var(--text-primary);
   font-weight: 500;
 }
 
 .carousel-artist {
-  font-size: 20px;
+  font-size: clamp(12px, 1.04vw, 20px);
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  margin-bottom: clamp(10px, 1.04vw, 20px);
   font-weight: 300;
 }
 
 .carousel-details {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(4px, 0.42vw, 8px);
   align-items: center;
 }
 
+.carousel-type,
 .carousel-release-date,
 .carousel-credits {
-  font-size: 14px;
+  font-size: clamp(8px, 0.73vw, 14px);
   color: var(--text-tertiary);
   font-weight: 300;
 }
