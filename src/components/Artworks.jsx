@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Artworks = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const carouselRef = useRef(null);
 
   const artworks = [
     {
@@ -63,65 +67,182 @@ const Artworks = () => {
     {
       id: 8,
       artist: 'Poloet',
-      title: '초련(520)',
+      title: '초련',
       image: '/images/artworks/P-초련(520).jpg',
       releaseDate: '2024.08',
       credits: 'Art Direction: Poloet'
     },
   ];
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? artworks.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev === artworks.length - 1 ? 0 : prev + 1));
+  const getSlideWidth = () => {
+    if (carouselRef.current && carouselRef.current.children[0]) {
+      return carouselRef.current.children[0].offsetWidth;
+    }
+    return 600; // fallback
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    if (carouselRef.current) {
+      const carousel = carouselRef.current;
+      const slides = carousel.querySelectorAll('.carousel-slide-wrapper');
+      const targetSlide = slides[index];
+      
+      if (targetSlide) {
+        const slideCenter = targetSlide.offsetLeft + targetSlide.offsetWidth / 2;
+        const carouselCenter = carousel.offsetWidth / 2;
+        const scrollPosition = slideCenter - carouselCenter;
+        
+        carousel.scrollTo({
+          left: scrollPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
   };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    snapToNearestSlide();
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(carouselRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    snapToNearestSlide();
+  };
+
+  const snapToNearestSlide = () => {
+    if (carouselRef.current) {
+      const slideWidth = getSlideWidth();
+      const scrollPosition = carouselRef.current.scrollLeft;
+      const newIndex = Math.round(scrollPosition / slideWidth);
+      goToSlide(Math.max(0, Math.min(newIndex, artworks.length - 1)));
+    }
+  };
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (carousel) {
+      carousel.addEventListener('mousedown', handleMouseDown);
+      carousel.addEventListener('mousemove', handleMouseMove);
+      carousel.addEventListener('mouseup', handleMouseUp);
+      carousel.addEventListener('mouseleave', handleMouseUp);
+      carousel.addEventListener('touchstart', handleTouchStart);
+      carousel.addEventListener('touchmove', handleTouchMove);
+      carousel.addEventListener('touchend', handleTouchEnd);
+    }
+    return () => {
+      if (carousel) {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mouseleave', handleMouseUp);
+        carousel.removeEventListener('touchstart', handleTouchStart);
+        carousel.removeEventListener('touchmove', handleTouchMove);
+        carousel.removeEventListener('touchend', handleTouchEnd);
+      }
+    };
+  }, []);
+
+  // Scroll-based detection for centered slide
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const handleScroll = () => {
+      const carouselCenter = carousel.scrollLeft + carousel.offsetWidth / 2;
+      const slides = carousel.querySelectorAll('.carousel-slide-wrapper');
+      
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      slides.forEach((slide, index) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const distance = Math.abs(carouselCenter - slideCenter);
+        
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setCurrentIndex(closestIndex);
+    };
+
+    carousel.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+
+    return () => {
+      carousel.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <section className="artworks">
       <h1 className="artworks-title font-slogan">Archive</h1>
-      <div className="carousel-container">
-        <button className="carousel-nav carousel-nav-prev" onClick={goToPrevious}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        
-        <div className="carousel-content">
-          <div className="carousel-slide">
-            <img
-              src={artworks[currentIndex].image}
-              alt={artworks[currentIndex].title}
-              className="carousel-image"
-              draggable="false"
-              onContextMenu={(e) => e.preventDefault()}
-            />
-          </div>
-          
-          <div className="carousel-info">
-            <h2 className="carousel-title font-body">{artworks[currentIndex].title}</h2>
-            <p className="carousel-artist font-body">{artworks[currentIndex].artist}</p>
-            <div className="carousel-details">
-              <p className="carousel-release-date font-body">
-                <span className="detail-label">Release:</span> {artworks[currentIndex].releaseDate}
-              </p>
-              <p className="carousel-credits font-body">
-                <span className="detail-label">Credits:</span> {artworks[currentIndex].credits}
-              </p>
+      <div 
+        className="carousel-scroll-container"
+        ref={carouselRef}
+      >
+        {artworks.map((artwork, index) => (
+          <div 
+            key={artwork.id} 
+            data-index={index}
+            className={`carousel-slide-wrapper ${index === currentIndex ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
+          >
+            <div className="carousel-slide">
+              <img
+                src={artwork.image}
+                alt={artwork.title}
+                className="carousel-image"
+                draggable="false"
+                onContextMenu={(e) => e.preventDefault()}
+              />
+            </div>
+            <div className="carousel-info">
+              <h2 className="carousel-title font-body">{artwork.title}</h2>
+              <p className="carousel-artist font-body">{artwork.artist}</p>
+              <div className="carousel-details">
+                <p className="carousel-release-date font-body">
+                  <span className="detail-label">Release:</span> {artwork.releaseDate}
+                </p>
+                <p className="carousel-credits font-body">
+                  <span className="detail-label">Credits:</span> {artwork.credits}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <button className="carousel-nav carousel-nav-next" onClick={goToNext}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+        ))}
       </div>
       
       <div className="carousel-pagination">
