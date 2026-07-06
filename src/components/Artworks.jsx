@@ -260,7 +260,7 @@ const Artworks = () => {
 
   return (
     <section className="artworks">
-      <h1 className="artworks-title font-slogan">Archive</h1>
+      <h1 className="artworks-title font-slogan">Projects</h1>
       <div 
         className="carousel-scroll-container"
         ref={carouselRef}

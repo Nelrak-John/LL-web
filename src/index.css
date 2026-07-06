@@ -1090,3 +1090,18 @@ section > * {
   background-color: #000000; /* 활성화 시 묵직한 딥 블랙 */
   transform: rotate(45deg) scale(1.2); /* 활성화 시 살짝 피드백 스케일업 */
 }
+
+/* ----------------------------------------------------
+   Contact 섹션 타이틀 위치 미세 조정 (Y축 상단 이동)
+   ---------------------------------------------------- */
+.contact .contact-title {
+  display: inline-block; /* transform 연산이 정확하게 먹히도록 규격을 잡아줍니다 */
+  
+  transform: translateY(-80px); /* ⚠️ 현재 위치에서 위로 80px 올립니다. */
+  
+  /* [체크포인트] 
+     만약 화면에서 더 위로 올리고 싶다면 -100px, -120px로 수치를 키우시고, 
+     조금 덜 올리고 싶다면 -40px, -50px로 미세 조정(Fine-Tuning) 하시면 됩니다. */
+  
+  transition: transform 0.3s ease; /* 혹시 모를 호버 시 다이내믹을 위한 부드러운 트랜지션 */
+}
