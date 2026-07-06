@@ -1029,3 +1029,64 @@ section > * {
   overflow: hidden !important;
   pointer-events: none !important; /* 마우스 클릭, 호버 인터랙션 차단 */
 }
+/* 사이트 전체에서 공유할 시그니처 섹션 타이틀 스타일 */
+.section-title {
+  font-family: 'Syne', 'Montserrat', sans-serif;
+  font-size: 3.5rem;         /* 데스크톱 기본 크기 */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;       /* 섹션 아래쪽과의 기본 간격 확보 */
+}
+
+/* 💻 웹페이지 사이즈를 줄였을 때 (태블릿 & 모바일 가로) */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 2.8rem;
+  }
+}
+
+/* 📱 스마트폰 화면 규격 (모바일 세로) */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.2rem;       /* 화면 밖으로 깨지지 않는 최적의 크기 */
+    letter-spacing: -0.02em; /* 모바일에서는 가독성을 위해 자간을 살짝 조절 */
+  }
+}
+
+/* ----------------------------------------------------
+   최종 마감: 페이지네이션 도트 - 정마름모 변환 및 20% 압축 세팅
+   ---------------------------------------------------- */
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 16px;       /* 도트 사이의 정갈한 간격 */
+  margin-top: 25px;
+}
+
+.carousel-pagination .pagination-dot {
+  /* 1. 원형 속성을 지우고 완벽한 사각형으로 깎음 */
+  border-radius: 0% !important;
+  
+  /* 2. 정확히 45도 틀어서 날카로운 정마름모(다이아몬드) 구현 */
+  transform: rotate(45deg);
+  
+  /* 3. 기존 대비 약 20% 압축한 컴팩트 밸런스 수치 */
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #cccccc; /* 비활성화 상태의 은은한 그레이 */
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  
+  /* 4. 전환 시 부드러운 하드웨어 가속 트랜지션 */
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 현재 보고 있는 슬라이드의 마름모 활성화(Active) 및 호버 세팅 */
+.carousel-pagination .pagination-dot.active,
+.carousel-pagination .pagination-dot:hover {
+  background-color: #000000; /* 활성화 시 묵직한 딥 블랙 */
+  transform: rotate(45deg) scale(1.2); /* 활성화 시 살짝 피드백 스케일업 */
+}
