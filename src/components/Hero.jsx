@@ -10,7 +10,7 @@ const Hero = () => {
 
   const handleImageError = () => {
     setImageError(true);
-    console.error('로고 이미지 로딩 실패: /images/web_logo/LL_logo_B_W.png');
+    console.error('로고 이미지 로딩 실패: /images/web_logo/LL_logo_B_BK.png');
   };
 
   return (
@@ -23,7 +23,7 @@ const Hero = () => {
           <h1 className="hero-logo-text font-slogan">LONELY LEGACY</h1>
         ) : (
           <img
-            src="/images/web_logo/LL_logo_B_W.png"
+            src="/images/web_logo/LL_logo_B_BK.png"
             alt="LONELY LEGACY"
             className="hero-logo"
             onLoad={handleImageLoad}

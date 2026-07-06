@@ -1,3 +1,11 @@
+:root {
+  --noise-opacity: 0.04;
+  --background-color: #f7f7f7;
+  --text-primary: #1a1a1a;
+  --text-secondary: #2c2c2c;
+  --text-tertiary: #666666;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -31,8 +39,8 @@ html {
 }
 
 body {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--background-color);
+  color: var(--text-primary);
   font-family: 'Pretendard', sans-serif;
   font-weight: 300;
   overflow-x: hidden;
@@ -43,19 +51,25 @@ section {
   height: 100vh;
   width: 100%;
   position: relative;
+  overflow: hidden;
+}
+
+section > * {
+  max-height: 100vh;
 }
 
 /* 폰트 설정 */
 .font-slogan {
   font-family: 'UnifrakturMaguntia', cursive;
+  letter-spacing: 0.1em;
 }
 
 .font-body {
   font-family: 'Pretendard', sans-serif;
 }
 
-/* Grain Overlay */
-.grain-overlay {
+/* Vintage Film Grain Overlay */
+.vintage-grain-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -63,13 +77,13 @@ section {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  animation: grainAnimation 0.5s steps(10) infinite;
-  mix-blend-mode: overlay;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='vintageNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23vintageNoise)'/%3E%3C/svg%3E");
+  animation: vintageGrainAnimation 1.0s steps(8) infinite;
+  mix-blend-mode: multiply;
 }
 
-@keyframes grainAnimation {
+@keyframes vintageGrainAnimation {
   0%, 100% {
     transform: translate(0, 0);
   }
@@ -102,117 +116,6 @@ section {
   }
 }
 
-@keyframes grainFlicker {
-  0% {
-    opacity: 0.06;
-  }
-  100% {
-    opacity: 0.1;
-  }
-}
-
-/* Vignette & Peripheral Blur */
-.vignette-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9998;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.8) 100%);
-  mix-blend-mode: multiply;
-}
-
-.peripheral-blur {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9997;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
-  backdrop-filter: blur(0px);
-  mask-image: radial-gradient(ellipse at center, transparent 40%, black 100%);
-  -webkit-mask-image: radial-gradient(ellipse at center, transparent 40%, black 100%);
-}
-
-/* Chromatic Aberration */
-.chromatic-aberration {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9996;
-  mix-blend-mode: screen;
-  opacity: 0.03;
-}
-
-.chromatic-aberration::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -2px;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='chromatic'%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1'/%3E%3C/filter%3E%3C/svg%3E#chromatic");
-  animation: chromaticShift 3s ease-in-out infinite;
-}
-
-.chromatic-aberration::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 2px;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='chromatic2'%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3C/svg%3E#chromatic2");
-  animation: chromaticShift 3s ease-in-out infinite reverse;
-}
-
-@keyframes chromaticShift {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(-1px, 0);
-  }
-  50% {
-    transform: translate(0, 1px);
-  }
-  75% {
-    transform: translate(1px, 0);
-  }
-}
-
-/* RGB Noise Mix */
-.rgb-noise {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9995;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rgbNoise'%3E%3CfeTurbulence type='turbulence' baseFrequency='3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rgbNoise)'/%3E%3C/svg%3E");
-  mix-blend-mode: screen;
-  animation: rgbNoiseFlicker 0.15s infinite alternate;
-}
-
-@keyframes rgbNoiseFlicker {
-  0% {
-    opacity: 0.015;
-  }
-  100% {
-    opacity: 0.025;
-  }
-}
 
 /* Scroll Indicator 스타일 */
 .scroll-indicator {
@@ -244,7 +147,7 @@ section {
 
 .indicator-line {
   position: absolute;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 .indicator-line.horizontal {
@@ -264,7 +167,7 @@ section {
 }
 
 .indicator-item:hover .indicator-line {
-  background-color: #ffffff;
+  background-color: var(--text-secondary);
 }
 
 /* Hero Section */
@@ -293,7 +196,7 @@ section {
   position: relative;
   z-index: 2;
   font-size: 120px;
-  color: #ffffff;
+  color: var(--text-primary);
   text-align: center;
   cursor: pointer;
   user-select: none;
@@ -322,7 +225,7 @@ section {
 .hero-logo-text {
   font-family: 'UnifrakturMaguntia', cursive;
   font-size: 64px;
-  color: #ffffff;
+  color: var(--text-primary);
   text-align: center;
   animation: logoFadeIn 1.5s ease-out forwards;
 }
@@ -360,7 +263,7 @@ section {
 .about-text {
   font-size: 1.15rem;
   line-height: 1.8;
-  color: #cccccc;
+  color: var(--text-secondary);
   text-align: center;
 }
 
@@ -370,46 +273,199 @@ section {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 10%;
+  padding: clamp(30px, 3.125vw, 60px) 0;
+  min-height: 100vh;
 }
 
 .artworks-title {
   font-family: 'UnifrakturMaguntia', cursive;
-  font-size: 64px;
-  margin-bottom: 60px;
+  font-size: clamp(32px, 3.33vw, 64px);
+  margin-bottom: clamp(30px, 3.125vw, 60px);
 }
 
-.artworks-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
+/* Carousel Scroll Container - Center Mode */
+.carousel-scroll-container {
+  display: flex;
   width: 100%;
-  max-width: 900px;
+  margin: 0 auto clamp(20px, 2.1vw, 40px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 calc(50vw - (clamp(280px, 31.25vw, 600px) / 2 + clamp(10px, 1.04vw, 20px)));
 }
 
-.artwork-item {
-  position: relative;
-  width: 90%;
+.carousel-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-scroll-container:active {
+  cursor: grabbing;
+}
+
+.carousel-slide-wrapper {
+  flex: 0 0 clamp(280px, 31.25vw, 600px);
+  scroll-snap-align: center;
+  padding: 0 clamp(10px, 1.04vw, 20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  opacity: 0.35;
+  filter: blur(2px) grayscale(100%);
+  transform: scale(0.9);
+}
+
+.carousel-slide-wrapper.active {
+  opacity: 1;
+  filter: blur(0) grayscale(0%);
+  transform: scale(1);
+}
+
+.carousel-slide-wrapper:hover {
+  opacity: 0.7;
+  filter: blur(1px) grayscale(50%);
+}
+
+.carousel-slide-wrapper.active:hover {
+  opacity: 1;
+  filter: blur(0) grayscale(0%);
+}
+
+/* 모바일 환경에서 호버 이동 효과 차단 */
+@media (pointer: coarse) {
+  .carousel-slide-wrapper:hover {
+    opacity: 0.35;
+    filter: blur(2px) grayscale(100%);
+  }
+}
+
+.carousel-slide {
+  width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 0 auto;
+  border-radius: 12px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.05);
 }
 
-.artwork-image {
+.carousel-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: grayscale(100%) contrast(1.2);
-  transition: filter 0.5s ease, transform 0.5s ease;
+  transition: filter 0.5s ease;
   backface-visibility: hidden;
   will-change: filter;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
-.artwork-image:hover {
+.carousel-slide-wrapper.active .carousel-image {
   filter: grayscale(0%);
+}
+
+.carousel-slide-wrapper.active:hover .carousel-image {
+  filter: grayscale(0%);
+}
+
+/* Carousel Info */
+.carousel-info {
+  text-align: center;
+  width: 100%;
+  max-width: clamp(280px, 31.25vw, 600px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+.carousel-slide-wrapper.active .carousel-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel-title {
+  font-size: clamp(18px, 1.875vw, 36px);
+  margin-bottom: clamp(5px, 0.52vw, 10px);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.carousel-artist {
+  font-size: clamp(12px, 1.04vw, 20px);
+  color: var(--text-secondary);
+  margin-bottom: clamp(10px, 1.04vw, 20px);
+  font-weight: 300;
+}
+
+.carousel-details {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.42vw, 8px);
+  align-items: center;
+}
+
+.carousel-type,
+.carousel-release-date,
+.carousel-credits {
+  font-size: clamp(8px, 0.73vw, 14px);
+  color: var(--text-tertiary);
+  font-weight: 300;
+}
+
+.detail-label {
+  color: var(--text-primary);
+  font-weight: 400;
+  margin-right: 8px;
+}
+
+/* Carousel Pagination */
+.carousel-pagination {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.pagination-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pagination-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pagination-dot:hover::before {
+  opacity: 1;
+}
+
+.pagination-dot.active {
+  background: var(--text-primary);
+  transform: scale(1.2);
+}
+
+.pagination-dot.active::before {
+  background: rgba(26, 26, 26, 0.7);
+  opacity: 1;
 }
 
 /* Projects Section */
@@ -471,7 +527,7 @@ section {
   transform: translate(-50%, -50%);
   width: 200%;
   height: 200%;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(26, 26, 26, 0.08) 0%, transparent 70%);
   filter: blur(20px);
   opacity: 0;
   z-index: -1;
@@ -485,9 +541,9 @@ section {
 
 .project-description {
   font-size: 18px;
-  color: #cccccc;
+  color: var(--text-tertiary);
   line-height: 1.6;
-  opacity: 0.4;
+  opacity: 0.6;
   transition: opacity 0.5s ease;
 }
 
@@ -508,6 +564,14 @@ section {
   font-family: 'UnifrakturMaguntia', cursive;
   font-size: 64px;
   margin-bottom: 60px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.contact-title:hover {
+  color: var(--text-tertiary);
 }
 
 .contact-content {
@@ -517,13 +581,18 @@ section {
 }
 
 .contact-link {
-  color: #ffffff;
+  color: var(--text-primary);
   text-decoration: none;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .contact-link:hover {
-  color: #888;
+  color: var(--text-tertiary);
+}
+
+.contact-link.disabled {
+  display: none;
 }
 
 /* 반응형 디자인 */
@@ -532,8 +601,20 @@ section {
     font-size: 80px;
   }
 
-  .artworks-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .carousel-container {
+    gap: 20px;
+  }
+
+  .carousel-slide {
+    max-width: 500px;
+  }
+
+  .carousel-title {
+    font-size: 28px;
+  }
+
+  .carousel-artist {
+    font-size: 18px;
   }
 }
 
@@ -549,8 +630,32 @@ section {
     font-size: 48px;
   }
 
-  .artworks-grid {
-    grid-template-columns: 1fr;
+  .carousel-scroll-container {
+    padding: 0 calc(50% - 37.5vw);
+    max-width: 100%;
+  }
+
+  .carousel-slide-wrapper {
+    flex: 0 0 75vw;
+    padding: 0 15px;
+  }
+
+  .carousel-title {
+    font-size: 24px;
+  }
+
+  .carousel-artist {
+    font-size: 16px;
+  }
+
+  .carousel-release-date,
+  .carousel-credits {
+    font-size: 12px;
+  }
+
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
   }
 
   .scroll-indicator {
@@ -574,30 +679,10 @@ section {
 
 /* 모바일 성능 최적화 */
 @media (max-width: 768px) {
-  /* 노이즈 효과 감소 */
-  .grain-overlay {
-    opacity: 0.04;
+  /* 빈티지 노이즈 효과 감소 */
+  .vintage-grain-overlay {
+    opacity: 0.03;
     animation-duration: 1.2s;
-  }
-
-  /* 비네트 효과 감소 */
-  .vignette-overlay {
-    opacity: 0.7;
-  }
-
-  /* 주변 블러 감소 */
-  .peripheral-blur {
-    backdrop-filter: blur(0.3px);
-  }
-
-  /* 크로마틱 어베리에이션 감소 */
-  .chromatic-aberration {
-    opacity: 0.01;
-  }
-
-  /* RGB 노이즈 감소 */
-  .rgb-noise {
-    opacity: 0.01;
   }
 
   /* 비디오 성능 최적화 */
@@ -652,12 +737,16 @@ section {
     margin-bottom: 40px;
   }
 
-  .artworks-grid {
-    gap: 30px;
+  .carousel-container {
+    gap: 15px;
   }
 
-  .artwork-item {
-    width: 100%;
+  .carousel-title {
+    font-size: 20px;
+  }
+
+  .carousel-artist {
+    font-size: 14px;
   }
 
   /* Projects Section */
@@ -751,4 +840,278 @@ section {
     width: 6px;
     height: 6px;
   }
+}
+
+/* 세로 뷰포트 미디어 쿼리 - 높이가 낮을 때 콘텐츠 압축 */
+@media (max-height: 750px) {
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 48px;
+    margin-bottom: 30px;
+  }
+
+  .about,
+  .artworks,
+  .projects,
+  .contact {
+    padding: 40px 10%;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .carousel-scroll-container {
+    margin-bottom: 30px;
+  }
+
+  .carousel-slide-wrapper {
+    flex: 0 0 500px;
+  }
+
+  .carousel-title {
+    font-size: 28px;
+  }
+
+  .carousel-artist {
+    font-size: 16px;
+  }
+
+  .project-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .project-description {
+    font-size: 16px;
+  }
+
+  .projects-list {
+    gap: 40px;
+  }
+}
+
+@media (max-height: 600px) {
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .about,
+  .artworks,
+  .projects,
+  .contact {
+    padding: 30px 10%;
+  }
+
+  .about-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .carousel-scroll-container {
+    margin-bottom: 20px;
+    padding: 0 calc(50% - 250px);
+  }
+
+  .carousel-slide-wrapper {
+    flex: 0 0 500px;
+  }
+
+  .carousel-title {
+    font-size: 24px;
+  }
+
+  .carousel-artist {
+    font-size: 14px;
+  }
+
+  .carousel-details {
+    gap: 5px;
+  }
+
+  .carousel-release-date,
+  .carousel-credits {
+    font-size: 12px;
+  }
+
+  .project-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .project-description {
+    font-size: 14px;
+  }
+
+  .projects-list {
+    gap: 30px;
+  }
+}
+
+@media (max-height: 500px) {
+  .about-title,
+  .artworks-title,
+  .projects-title,
+  .contact-title {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .about,
+  .artworks,
+  .projects,
+  .contact {
+    padding: 20px 10%;
+    overflow-y: auto;
+  }
+
+  .about-text {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .carousel-scroll-container {
+    margin-bottom: 15px;
+    padding: 0 calc(50% - 200px);
+  }
+
+  .carousel-slide-wrapper {
+    flex: 0 0 400px;
+  }
+
+  .carousel-title {
+    font-size: 20px;
+  }
+
+  .carousel-artist {
+    font-size: 12px;
+  }
+
+  .carousel-details {
+    gap: 3px;
+  }
+
+  .carousel-release-date,
+  .carousel-credits {
+    font-size: 10px;
+  }
+
+  .project-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .project-description {
+    font-size: 12px;
+  }
+
+  .projects-list {
+    gap: 20px;
+  }
+
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+/* 공간은 유지하되 투명화 및 마우스 반응 차단 */
+.projects {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0px !important; /* 스냅 구조에 따라 100vh 혹은 0px로 조절해가며 밸런스 점검 */
+  overflow: hidden !important;
+  pointer-events: none !important; /* 마우스 클릭, 호버 인터랙션 차단 */
+}
+/* 사이트 전체에서 공유할 시그니처 섹션 타이틀 스타일 */
+.section-title {
+  font-family: 'Syne', 'Montserrat', sans-serif;
+  font-size: 3.5rem;         /* 데스크톱 기본 크기 */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;       /* 섹션 아래쪽과의 기본 간격 확보 */
+}
+
+/* 💻 웹페이지 사이즈를 줄였을 때 (태블릿 & 모바일 가로) */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 2.8rem;
+  }
+}
+
+/* 📱 스마트폰 화면 규격 (모바일 세로) */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.2rem;       /* 화면 밖으로 깨지지 않는 최적의 크기 */
+    letter-spacing: -0.02em; /* 모바일에서는 가독성을 위해 자간을 살짝 조절 */
+  }
+}
+
+/* ----------------------------------------------------
+   최종 마감: 페이지네이션 도트 - 정마름모 변환 및 20% 압축 세팅
+   ---------------------------------------------------- */
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 16px;       /* 도트 사이의 정갈한 간격 */
+  margin-top: 25px;
+}
+
+.carousel-pagination .pagination-dot {
+  /* 1. 원형 속성을 지우고 완벽한 사각형으로 깎음 */
+  border-radius: 0% !important;
+  
+  /* 2. 정확히 45도 틀어서 날카로운 정마름모(다이아몬드) 구현 */
+  transform: rotate(45deg);
+  
+  /* 3. 기존 대비 약 20% 압축한 컴팩트 밸런스 수치 */
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #cccccc; /* 비활성화 상태의 은은한 그레이 */
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  
+  /* 4. 전환 시 부드러운 하드웨어 가속 트랜지션 */
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 현재 보고 있는 슬라이드의 마름모 활성화(Active) 및 호버 세팅 */
+.carousel-pagination .pagination-dot.active,
+.carousel-pagination .pagination-dot:hover {
+  background-color: #000000; /* 활성화 시 묵직한 딥 블랙 */
+  transform: rotate(45deg) scale(1.2); /* 활성화 시 살짝 피드백 스케일업 */
+}
+
+/* ----------------------------------------------------
+   Contact 섹션 타이틀 위치 미세 조정 (Y축 상단 이동)
+   ---------------------------------------------------- */
+.contact .contact-title {
+  display: inline-block; /* transform 연산이 정확하게 먹히도록 규격을 잡아줍니다 */
+  
+  transform: translateY(-80px); /* ⚠️ 현재 위치에서 위로 80px 올립니다. */
+  
+  /* [체크포인트] 
+     만약 화면에서 더 위로 올리고 싶다면 -100px, -120px로 수치를 키우시고, 
+     조금 덜 올리고 싶다면 -40px, -50px로 미세 조정(Fine-Tuning) 하시면 됩니다. */
+  
+  transition: transform 0.3s ease; /* 혹시 모를 호버 시 다이내믹을 위한 부드러운 트랜지션 */
+}
+
+/* ----------------------------------------------------
+   [최종 마감] 아트워크 모서리 곡률 제거 -> 날카로운 90도 직각 빌드
+   ---------------------------------------------------- */
+.carousel-slide-wrapper,
+.carousel-slide,
+.carousel-image {
+  /* 기존에 걸려있던 모든 둥근 모서리를 강제로 제로(0) 처리 */
+  border-radius: 0px !important;
 }
