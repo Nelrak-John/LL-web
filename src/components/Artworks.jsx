@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 const Artworks = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isMoving, setIsMoving] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const carouselRef = useRef(null);
@@ -126,6 +127,8 @@ const Artworks = () => {
   };
 
   const goToSlide = (index) => {
+    if (isMoving) return;
+    setIsMoving(true);
     setCurrentIndex(index);
     if (carouselRef.current) {
       const carousel = carouselRef.current;
@@ -141,6 +144,11 @@ const Artworks = () => {
           left: scrollPosition,
           behavior: 'smooth'
         });
+
+        // 스크롤 완료 후 isMoving 해제
+        setTimeout(() => {
+          setIsMoving(false);
+        }, 600);
       }
     }
   };
@@ -263,6 +271,13 @@ const Artworks = () => {
             data-index={index}
             className={`carousel-slide-wrapper ${index === currentIndex ? 'active' : ''}`}
             onClick={() => goToSlide(index)}
+            onMouseEnter={() => {
+              // 모바일 환경이 아니고, 비활성 카드이며, 이동 중이 아닐 때만 실행
+              const isMobile = window.matchMedia('(pointer: coarse)').matches;
+              if (!isMobile && index !== currentIndex && !isMoving) {
+                goToSlide(index);
+              }
+            }}
           >
             <div className="carousel-slide">
               <img

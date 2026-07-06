@@ -322,7 +322,7 @@ section > * {
 
 .carousel-slide-wrapper.active {
   opacity: 1;
-  filter: blur(0) grayscale(100%);
+  filter: blur(0) grayscale(0%);
   transform: scale(1);
 }
 
@@ -334,6 +334,14 @@ section > * {
 .carousel-slide-wrapper.active:hover {
   opacity: 1;
   filter: blur(0) grayscale(0%);
+}
+
+/* 모바일 환경에서 호버 이동 효과 차단 */
+@media (pointer: coarse) {
+  .carousel-slide-wrapper:hover {
+    opacity: 0.35;
+    filter: blur(2px) grayscale(100%);
+  }
 }
 
 .carousel-slide {
@@ -357,7 +365,7 @@ section > * {
 }
 
 .carousel-slide-wrapper.active .carousel-image {
-  filter: grayscale(100%) contrast(1.2);
+  filter: grayscale(0%);
 }
 
 .carousel-slide-wrapper.active:hover .carousel-image {
@@ -1012,4 +1020,12 @@ section > * {
     width: 8px;
     height: 8px;
   }
+}
+/* 공간은 유지하되 투명화 및 마우스 반응 차단 */
+.projects {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0px !important; /* 스냅 구조에 따라 100vh 혹은 0px로 조절해가며 밸런스 점검 */
+  overflow: hidden !important;
+  pointer-events: none !important; /* 마우스 클릭, 호버 인터랙션 차단 */
 }
