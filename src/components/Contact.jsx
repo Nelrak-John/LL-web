@@ -3,12 +3,19 @@ import React from 'react';
 const Contact = () => {
   return (
     <section className="contact">
-      <h1 className="contact-title font-slogan">Contact</h1>
-      <div className="contact-content font-body">
+      <a 
+        href="https://www.instagram.com/lonelylegacyxx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+        className="contact-title font-slogan"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Contact
+      </a>
+      <div className="contact-content font-body" style={{ display: 'none' }}>
         <p>
-          <a href="mailto:contact@lonelylegacy.com" className="contact-link">
+          <span className="contact-link disabled">
             contact@lonelylegacy.com
-          </a>
+          </span>
         </p>
         <p>
           <a href="https://www.instagram.com/lonelylegacyxx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="contact-link">
@@ -16,9 +23,9 @@ const Contact = () => {
           </a>
         </p>
         <p>
-          <a href="https://twitter.com/lonelylegacy" className="contact-link">
+          <span className="contact-link disabled">
             Twitter
-          </a>
+          </span>
         </p>
       </div>
     </section>
