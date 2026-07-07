@@ -1115,3 +1115,71 @@ section > * {
   /* 기존에 걸려있던 모든 둥근 모서리를 강제로 제로(0) 처리 */
   border-radius: 0px !important;
 }
+
+/* PC 및 마우스 환경에서만 호버 애니메이션이 작동하도록 격리 */
+@media (hover: hover) {
+  .carousel-slide:hover {
+    transform: scale(1.05); /* 예시로 걸려있던 호버 다이내믹 */
+    filter: brightness(1);
+  }
+}
+
+/* ====================================================
+   아트워크 마우스 호버 시 꿀렁거리는 확대(Scale) 기능 완전히 제거
+   ==================================================== */
+
+/* 1. 슬라이드 자체 및 이미지 태그의 호버 확대 강제 해제 */
+.carousel-slide:hover,
+.carousel-slide-wrapper:hover,
+.carousel-image:hover,
+.project-card:hover,
+.artworks-item:hover,
+img:hover {
+  /* 확대를 강제로 1배율(원래 크기)로 고정합니다. */
+  transform: scale(1) !important;
+  
+  /* 확대되면서 생기는 미세한 블러/필터 왜곡 현상 방지 */
+  filter: none !important;
+  
+  /* 위치 변화가 생기는 부작용 방지 */
+  top: 0 !important;
+  align-content: normal !important;
+}
+
+/* 2. 트랜지션 효과가 남아있어 느리게 꿀렁거리는 잔상 방지 */
+.carousel-slide,
+.carousel-image,
+img {
+  /* 호버 시 크기 변화 관련 전환 효과를 초기화합니다. */
+  transition-property: transform, filter !important;
+  transition-duration: 0ms !important;
+}
+
+/* 터치 기기(모바일/태블릿)용 예외 처리 */
+@media (hover: none) {
+  .carousel-slide {
+    transform: none !important; /* 모바일에서는 호버 확대 기능을 완전히 끕니다 */
+    filter: brightness(1) !important; /* 터치 시 어두워지거나 밝아지는 잔상 제거 */
+  }
+}
+
+@media (max-width: 768px) {
+  /* 1. 전체 화면 밖으로 가로 스크롤이 생겨서 덜덜거리는 현상 원천 차단 */
+  html, body {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  /* 2. 아트워크 캐러셀/슬라이더 레이아웃 모바일 크기 최적화 */
+  .carousel-slide-wrapper {
+    width: 90% !important; /* 화면 좌우 여백을 균일하게 5%씩 줍니다 */
+    margin: 0 auto;
+  }
+
+  /* 3. 모바일에서 텍스트 크기가 너무 커서 깨진다면 미세 조정 */
+  .section-title.font-slogan {
+    font-size: 2rem !important; /* Projects 나 Contact 글자가 화면 밖으로 나가지 않도록 조정 */
+    letter-spacing: -0.5px;
+  }
+}
