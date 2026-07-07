@@ -1183,3 +1183,45 @@ img {
     letter-spacing: -0.5px;
   }
 }
+/* ----------------------------------------------------
+   모바일 스크롤 시 아트워크 비율 뒤틀림 방지 및 호버 원천 컷
+   ---------------------------------------------------- */
+
+/* 1. 터치 기기 환경에서 호버 강제 바이패스 */
+@media (hover: none), (pointer: coarse) {
+  /* 스크롤이나 터치 시 호버 가상 클래스가 발동하는 것을 원천 차단 */
+  .carousel-slide:hover,
+  .carousel-image:hover,
+  .project-card:hover,
+  img:hover {
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+/* 2. 모바일 반응형 뷰포트 스크롤 유연성 보정 */
+@media (max-width: 768px) {
+  /* 아트워크 컨테이너의 가로/세로 비율을 고정하여 주소창 변동에 반응하지 않게 락(Lock)을 겁니다 */
+  .carousel-slide,
+  .carousel-image,
+  .project-card img {
+    /* 90도 직각 정사각형 아키텍처 수호 */
+    aspect-ratio: 1 / 1 !important; 
+    width: 100% !important;
+    height: auto !important;
+    
+    /* 주소창 렉으로 인해 세로가 늘어나는 왜곡 부작용 방지 */
+    object-fit: cover !important; 
+    
+    /* 렌더링 시 하드웨어 가속을 붙여 스크롤 유연성 확보 */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* 슬라이드를 감싸는 부모 랙의 높이가 가변적으로 출렁거리는 것 방지 */
+  .carousel-slide-wrapper {
+    height: max-content !important;
+  }
+}
