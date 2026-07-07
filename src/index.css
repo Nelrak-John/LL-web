@@ -1143,7 +1143,7 @@ img:hover {
   
   /* 위치 변화가 생기는 부작용 방지 */
   top: 0 !important;
-  y-content: none !important;
+  align-content: normal !important;
 }
 
 /* 2. 트랜지션 효과가 남아있어 느리게 꿀렁거리는 잔상 방지 */
