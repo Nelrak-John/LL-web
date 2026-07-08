@@ -1209,7 +1209,8 @@ img {
     /* 90도 직각 정사각형 아키텍처 수호 */
     aspect-ratio: 1 / 1 !important; 
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    max-height: 75vw !important;
     
     /* 주소창 렉으로 인해 세로가 늘어나는 왜곡 부작용 방지 */
     object-fit: cover !important; 
@@ -1218,10 +1219,28 @@ img {
     will-change: transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    
+    /* 터치 시 비율 변화 방지 */
+    transform: none !important;
   }
   
   /* 슬라이드를 감싸는 부모 랙의 높이가 가변적으로 출렁거리는 것 방지 */
   .carousel-slide-wrapper {
-    height: max-content !important;
+    height: auto !important;
+    max-height: 80vw !important;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 모바일에서 캐러셀 컨테이너 스크롤 스냅 강화 */
+  .carousel-scroll-container {
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* 모바일에서 슬라이드 스냅 강화 */
+  .carousel-slide-wrapper {
+    scroll-snap-align: center !important;
   }
 }
