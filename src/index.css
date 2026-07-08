@@ -1331,3 +1331,103 @@ section, .main-container-wrapper > section, .main-container-wrapper > div {
     scroll-snap-stop: normal !important;
   }
 }
+/* ==========================================================================
+   모바일 전용 레이아웃 정밀 밸런싱 (768px 이하 스케일 고정)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Projects 전체 섹션 구조 고정 */
+  section.artworks {
+    height: 100vh !important;
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 20px 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  /* 타이틀 마진 최적화 */
+  .artworks-title {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    font-size: 1.8rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 2. 슬라이드 개별 아이템 박스 */
+  .carousel-slide-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+    padding: 0 20px !important;
+  }
+
+  /* 3. [핵심] 아트워크 이미지 프레임 제한 (압착 방지 차단벽) */
+  .carousel-slide {
+    width: 100% !important;
+    max-width: 340px !important; /* 모바일 화면 좌우 밸런스 크기 고정 */
+    height: 220px !important;    /* 스크린샷 비율에 맞춘 칼고정 높이 */
+    overflow: hidden !important;
+    flex-shrink: 0 !important;   /* 어떤 상황에서도 찌그러짐 차단 */
+    margin: 0 auto !important;
+    background-color: #000;      /* 여백 발생 시 블랙 처리 */
+  }
+
+  .carousel-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* 찌그러짐 없이 정비율 크롭 유지 */
+  }
+
+  /* 4. [핵심] 하단 크레딧 정보 영역 스케일 유지 보호 */
+  .carousel-info {
+    width: 100% !important;
+    max-w: 340px !important;
+    margin: 15px auto 0 auto !important; /* 이미지와 격리 공간 확보 */
+    text-align: left !important;
+    flex-shrink: 0 !important;   /* 하단에서 절대 위로 찌그러지지 않게 고정 */
+  }
+
+  /* 타이틀과 아티스트 폰트 크기 및 간격 유지 */
+  .carousel-title {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    margin: 0 0 4px 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .carousel-artist {
+    font-size: 1.1rem !important;
+    margin: 0 0 12px 0 !important;
+    color: #333 !important;
+  }
+
+  /* 세부 정보 컴팩트 정렬 */
+  .carousel-details {
+    margin-top: 8px !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  .carousel-details p {
+    margin: 2px 0 !important;
+  }
+
+  .detail-label {
+    display: inline-block !important;
+    width: 60px !important; /* 라벨 가로 폭 고정으로 오차 서브 매칭 */
+    font-weight: 600 !important;
+  }
+
+  /* 5. 다이아몬드 인디케이터 간격 최적화 */
+  .carousel-pagination {
+    margin-top: auto !important;
+    margin-bottom: 10px !important;
+    flex-shrink: 0 !important;
+  }
+}

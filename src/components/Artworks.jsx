@@ -353,27 +353,5 @@ const Artworks = () => {
     </section>
   );
 };
-<div class="h-screen h-[100dvh] flex flex-col justify-between items-center p-4 box-sizing">
-  
-  <h2 class="text-3xl font-bold my-4">Projects</h2>
-
-  <div class="w-full max-w-[400px] h-[250px] sm:h-[350px] overflow-hidden flex-shrink-0">
-    <img src="artwork.jpg" class="w-full h-full object-cover" alt="BANG" />
-  </div>
-
-  <div class="w-full max-w-[400px] flex-shrink-0 mt-4 text-left px-2">
-    <h3 class="text-2xl font-bold tracking-wide">BANG</h3>
-    <p class="text-lg font-medium text-gray-700">KARLEN</p>
-    
-    <div class="mt-2 text-sm space-y-1 text-gray-600">
-      <p><span class="inline-block w-16 font-semibold">Type:</span> Single</p>
-      <p><span class="inline-block w-16 font-semibold">Release:</span> 2025.11.06</p>
-      <p><span class="inline-block w-16 font-semibold">Credits:</span> Art Direction by KARLEN</p>
-    </div>
-  </div>
-
-  <div class="flex space-x-2 my-4 flex-shrink-0">
-    </div>
-</div>
 
 export default Artworks;
