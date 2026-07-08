@@ -6,6 +6,7 @@ const Artworks = () => {
   const [isMoving, setIsMoving] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const carouselRef = useRef(null);
 
   const artworks = [
@@ -117,7 +118,20 @@ const Artworks = () => {
       credits: 'Art Direction by KARLEN & Poloet',
       type: 'Single'
     },
-  ].sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+  ].sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+
+  // 모바일 환경 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const getSlideWidth = () => {
     if (carouselRef.current && carouselRef.current.children[0]) {
@@ -181,7 +195,8 @@ const Artworks = () => {
   const handleTouchMove = (e) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
+    // 모바일에서는 walk 속도를 줄여서 비율 왜곡 방지
+    const walk = (x - startX) * (isMobile ? 1 : 2);
     carouselRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -202,26 +217,36 @@ const Artworks = () => {
   useEffect(() => {
     const carousel = carouselRef.current;
     if (carousel) {
-      carousel.addEventListener('mousedown', handleMouseDown);
-      carousel.addEventListener('mousemove', handleMouseMove);
-      carousel.addEventListener('mouseup', handleMouseUp);
-      carousel.addEventListener('mouseleave', handleMouseUp);
-      carousel.addEventListener('touchstart', handleTouchStart);
-      carousel.addEventListener('touchmove', handleTouchMove);
-      carousel.addEventListener('touchend', handleTouchEnd);
+      // 모바일이 아닐 때만 마우스 이벤트 리스너 추가
+      if (!isMobile) {
+        carousel.addEventListener('mousedown', handleMouseDown);
+        carousel.addEventListener('mousemove', handleMouseMove);
+        carousel.addEventListener('mouseup', handleMouseUp);
+        carousel.addEventListener('mouseleave', handleMouseUp);
+      }
+      // 모바일에서만 터치 이벤트 리스너 추가
+      if (isMobile) {
+        carousel.addEventListener('touchstart', handleTouchStart);
+        carousel.addEventListener('touchmove', handleTouchMove);
+        carousel.addEventListener('touchend', handleTouchEnd);
+      }
     }
     return () => {
       if (carousel) {
-        carousel.removeEventListener('mousedown', handleMouseDown);
-        carousel.removeEventListener('mousemove', handleMouseMove);
-        carousel.removeEventListener('mouseup', handleMouseUp);
-        carousel.removeEventListener('mouseleave', handleMouseUp);
-        carousel.removeEventListener('touchstart', handleTouchStart);
-        carousel.removeEventListener('touchmove', handleTouchMove);
-        carousel.removeEventListener('touchend', handleTouchEnd);
+        if (!isMobile) {
+          carousel.removeEventListener('mousedown', handleMouseDown);
+          carousel.removeEventListener('mousemove', handleMouseMove);
+          carousel.removeEventListener('mouseup', handleMouseUp);
+          carousel.removeEventListener('mouseleave', handleMouseUp);
+        }
+        if (isMobile) {
+          carousel.removeEventListener('touchstart', handleTouchStart);
+          carousel.removeEventListener('touchmove', handleTouchMove);
+          carousel.removeEventListener('touchend', handleTouchEnd);
+        }
       }
     };
-  }, []);
+  }, [isMobile]);
 
   // Scroll-based detection for centered slide
   useEffect(() => {
@@ -272,8 +297,7 @@ const Artworks = () => {
             className={`carousel-slide-wrapper ${index === currentIndex ? 'active' : ''}`}
             onClick={() => goToSlide(index)}
             onMouseEnter={() => {
-              // 모바일 환경이 아니고, 비활성 카드이며, 이동 중이 아닐 때만 실행
-              const isMobile = window.matchMedia('(pointer: coarse)').matches;
+              // 모바일 환경이면 마그네틱 호버 기능 완전 비활성화
               if (!isMobile && index !== currentIndex && !isMoving) {
                 goToSlide(index);
               }
