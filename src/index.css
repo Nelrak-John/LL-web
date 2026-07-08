@@ -557,13 +557,15 @@ section > * {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 10%;
+  padding: 40px 10%;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .contact-title {
   font-family: 'UnifrakturMaguntia', cursive;
   font-size: 64px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   color: var(--text-primary);
   text-decoration: none;
   transition: color 0.3s ease;
@@ -576,8 +578,8 @@ section > * {
 
 .contact-content {
   text-align: center;
-  font-size: 24px;
-  line-height: 2;
+  font-size: 20px;
+  line-height: 1.8;
 }
 
 .contact-link {
@@ -769,16 +771,19 @@ section > * {
 
   /* Contact Section */
   .contact {
-    padding: 40px 5%;
+    padding: 30px 5%;
+    max-height: 100vh;
+    overflow-y: auto;
   }
 
   .contact-title {
     font-size: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .contact-content {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   /* Scroll Indicator - 모바일에서 크기 축소 */
@@ -1243,4 +1248,60 @@ img {
   .carousel-slide-wrapper {
     scroll-snap-align: center !important;
   }
+}
+
+/* 1. 최상위 브라우저 바디: 스크롤바 흔적 지우기 */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important; /* 브라우저 기본 스크롤바 원천 차단 */
+}
+
+/* 2. [핵심] 4개 섹션을 감싸는 전체 부모 래퍼 */
+/* 현재 프로젝트의 최상위 부모 컨테이너 클래스나 태그에 적용 */
+.main-container-wrapper, #app, main, .smooth-scroll {
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important; /* 무조건 화면 딱 하나 크기로 제한 */
+  
+  /* 마그네틱 스크롤 강제 활성화 (CSS Snap 엔진) */
+  overflow-y: scroll !important; 
+  scroll-snap-type: y mandatory !important;
+  scroll-behavior: smooth !important;
+  
+  /* 스크롤바 UI만 투명하게 은폐 */
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* 크롬, 사파리 오버플로우 스크롤바 히든 */
+.main-container-wrapper::-webkit-scrollbar,
+#app::-webkit-scrollbar,
+main::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 3. 개별 섹션 (4개 각각의 화면) 칼고정 */
+section, 
+.main-container-wrapper > section,
+.main-container-wrapper > div {
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  
+  /* 마그네틱 스냅 포인트 지정 */
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  
+  /* 여백 에러 방어벽 */
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
 }
