@@ -557,9 +557,10 @@ section > * {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 10%;
+  padding: 0 10%;
+  height: 100vh;
   max-height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .contact-title {
@@ -1250,58 +1251,83 @@ img {
   }
 }
 
-/* 1. 최상위 브라우저 바디: 스크롤바 흔적 지우기 */
+/* ==========================================================================
+   1. 공통 세팅 (PC / 모바일 공통 스크롤바 은폐 및 여백 초기화)
+   ========================================================================== */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  overflow: hidden !important; /* 브라우저 기본 스크롤바 원천 차단 */
+  overflow: hidden !important; /* 브라우저 기본 스크롤바 차단 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none !important;
 }
 
-/* 2. [핵심] 4개 섹션을 감싸는 전체 부모 래퍼 */
-/* 현재 프로젝트의 최상위 부모 컨테이너 클래스나 태그에 적용 */
+/* 전체 부모 래퍼 공통 */
 .main-container-wrapper, #app, main, .smooth-scroll {
   width: 100% !important;
   height: 100vh !important;
-  height: 100dvh !important; /* 무조건 화면 딱 하나 크기로 제한 */
-  
-  /* 마그네틱 스크롤 강제 활성화 (CSS Snap 엔진) */
+  height: 100dvh !important;
   overflow-y: scroll !important; 
-  scroll-snap-type: y mandatory !important;
-  scroll-behavior: smooth !important;
-  
-  /* 스크롤바 UI만 투명하게 은폐 */
-  -ms-overflow-style: none !important;
-  scrollbar-width: none !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-
-/* 크롬, 사파리 오버플로우 스크롤바 히든 */
-.main-container-wrapper::-webkit-scrollbar,
-#app::-webkit-scrollbar,
-main::-webkit-scrollbar {
+.main-container-wrapper::-webkit-scrollbar {
   display: none !important;
-  width: 0 !important;
-  height: 0 !important;
 }
 
-/* 3. 개별 섹션 (4개 각각의 화면) 칼고정 */
-section, 
-.main-container-wrapper > section,
-.main-container-wrapper > div {
+/* 개별 섹션 공통 */
+section, .main-container-wrapper > section, .main-container-wrapper > div {
   width: 100% !important;
   height: 100vh !important;
   height: 100dvh !important;
   max-height: 100dvh !important;
-  
-  /* 마그네틱 스냅 포인트 지정 */
-  scroll-snap-align: start !important;
-  scroll-snap-stop: always !important;
-  
-  /* 여백 에러 방어벽 */
   box-sizing: border-box !important;
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
   position: relative !important;
+}
+
+
+/* ==========================================================================
+   2. PC 전용 세팅 (태블릿 및 PC 환경 - 769px 이상에서만 마그네틱 활성화)
+   ========================================================================== */
+@media (min-width: 769px) {
+  .main-container-wrapper, #app, main, .smooth-scroll {
+    /* PC에서만 자석 스냅 엔진 작동 */
+    scroll-snap-type: y mandatory !important;
+    scroll-behavior: smooth !important;
+  }
+  
+  section, .main-container-wrapper > section, .main-container-wrapper > div {
+    /* PC에서만 스냅 포인트 고정 */
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+  }
+}
+
+
+/* ==========================================================================
+   3. 모바일 전용 세팅 (스마트폰 환경 - 768px 이하에서 마그네틱 해제)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .main-container-wrapper, #app, main, .smooth-scroll {
+    /* 모바일에서는 마그네틱 스냅을 강제로 제거 (일반 부드러운 스크롤) */
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth !important;
+    
+    /* 모바일 크롬/사파리 터치 관성 스크롤 최적화 */
+    -webkit-overflow-scrolling: touch !important; 
+  }
+  
+  section, .main-container-wrapper > section, .main-container-wrapper > div {
+    /* 모바일 스냅 정렬 해제 */
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
 }
