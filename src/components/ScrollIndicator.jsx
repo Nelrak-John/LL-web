@@ -6,23 +6,35 @@ const ScrollIndicator = () => {
   const sections = ['Hero', 'About', 'Artworks', 'Projects', 'Contact'];
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sectionElements = document.querySelectorAll('section');
-      sectionElements.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-          setActiveSection(index);
-        }
-      });
+    const sectionElements = document.querySelectorAll('section');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-50% 0px -50% 0px',
+      threshold: 0
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Array.from(sectionElements).indexOf(entry.target);
+          if (index !== -1) {
+            setActiveSection(index);
+          }
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach((section) => observer.observe(section));
+
+    return () => {
+      sectionElements.forEach((section) => observer.unobserve(section));
+    };
   }, []);
 
   const scrollToSection = (index) => {
     const sectionElements = document.querySelectorAll('section');
-    sectionElements[index].scrollIntoView({ behavior: 'smooth' });
+    sectionElements[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (

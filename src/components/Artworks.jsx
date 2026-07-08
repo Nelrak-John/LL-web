@@ -120,6 +120,14 @@ const Artworks = () => {
     },
   ].sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate));
 
+  // 정렬 확인용 콘솔 로그
+  useEffect(() => {
+    console.log('Artworks sorted by release date (newest first):');
+    artworks.forEach((artwork, index) => {
+      console.log(`${index + 1}. ${artwork.title} - ${artwork.releaseDate}`);
+    });
+  }, []);
+
   // 모바일 환경 감지
   useEffect(() => {
     const checkMobile = () => {

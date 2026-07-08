@@ -557,13 +557,16 @@ section > * {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 10%;
+  padding: 0 10%;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 .contact-title {
   font-family: 'UnifrakturMaguntia', cursive;
   font-size: 64px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   color: var(--text-primary);
   text-decoration: none;
   transition: color 0.3s ease;
@@ -576,8 +579,8 @@ section > * {
 
 .contact-content {
   text-align: center;
-  font-size: 24px;
-  line-height: 2;
+  font-size: 20px;
+  line-height: 1.8;
 }
 
 .contact-link {
@@ -769,16 +772,19 @@ section > * {
 
   /* Contact Section */
   .contact {
-    padding: 40px 5%;
+    padding: 30px 5%;
+    max-height: 100vh;
+    overflow-y: auto;
   }
 
   .contact-title {
     font-size: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .contact-content {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   /* Scroll Indicator - 모바일에서 크기 축소 */
@@ -1242,5 +1248,86 @@ img {
   /* 모바일에서 슬라이드 스냅 강화 */
   .carousel-slide-wrapper {
     scroll-snap-align: center !important;
+  }
+}
+
+/* ==========================================================================
+   1. 공통 세팅 (PC / 모바일 공통 스크롤바 은폐 및 여백 초기화)
+   ========================================================================== */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important; /* 브라우저 기본 스크롤바 차단 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* 전체 부모 래퍼 공통 */
+.main-container-wrapper, #app, main, .smooth-scroll {
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow-y: scroll !important; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.main-container-wrapper::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* 개별 섹션 공통 */
+section, .main-container-wrapper > section, .main-container-wrapper > div {
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+
+/* ==========================================================================
+   2. PC 전용 세팅 (태블릿 및 PC 환경 - 769px 이상에서만 마그네틱 활성화)
+   ========================================================================== */
+@media (min-width: 769px) {
+  .main-container-wrapper, #app, main, .smooth-scroll {
+    /* PC에서만 자석 스냅 엔진 작동 */
+    scroll-snap-type: y mandatory !important;
+    scroll-behavior: smooth !important;
+  }
+  
+  section, .main-container-wrapper > section, .main-container-wrapper > div {
+    /* PC에서만 스냅 포인트 고정 */
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+  }
+}
+
+
+/* ==========================================================================
+   3. 모바일 전용 세팅 (스마트폰 환경 - 768px 이하에서 마그네틱 해제)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .main-container-wrapper, #app, main, .smooth-scroll {
+    /* 모바일에서는 마그네틱 스냅을 강제로 제거 (일반 부드러운 스크롤) */
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth !important;
+    
+    /* 모바일 크롬/사파리 터치 관성 스크롤 최적화 */
+    -webkit-overflow-scrolling: touch !important; 
+  }
+  
+  section, .main-container-wrapper > section, .main-container-wrapper > div {
+    /* 모바일 스냅 정렬 해제 */
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
   }
 }
